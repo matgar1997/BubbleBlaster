@@ -1,4 +1,7 @@
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,19 +19,32 @@ public class Gui implements Shifting{
 	private JLabel myScoreLabel;
 	private JLabel myScoreNeededLabel;
 	
-	private JButton [][] myButtons; // 15,15
+	private JButton [][] myButtons = new JButton[15][15]; // 15,15
 	
 	private String [] myColorOptions = {"WHITE", "BLUE", "GREEN", "RED", "YELLOW"};
 	
 	private Board myBoard;
 	
 	public Gui(){
+		this.instantiateAll();
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		this.myGameFrame.setSize(d.width / 2, d.height / 2);
+		this.myGameFrame.setVisible(true);
+		this.myGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.myGameFrame.setLocationRelativeTo(null);
 		
-		
+		for(int r = 0; r < 15; r++)
+			for(int c = 0; c < 15; c++)
+				this.myGamePanel.add(this.myButtons[r][c]);
+		this.myGameFrame.add(this.myGamePanel);
 	}
 	
 	public void sweepClear(){
 		//turns all 0 values to no color
+		for(int r = 0; r < 15; r++)
+			for(int c = 0; c < 15; c++)
+				if(this.myBoard.getBubble(r, c).getColorValue() == 0)
+					this.myButtons[r][c].setBackground(Color.WHITE);
 	}
 
 	@Override

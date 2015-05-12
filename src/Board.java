@@ -14,4 +14,8 @@ public class Board implements Shifting{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public Bubble getBubble(int r, int c){
+		return this.myBoard[r][c];
+	}
 }

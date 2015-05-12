@@ -13,6 +13,10 @@ public class Bubble {
 		this.myCanBePressed = !this.myCanBePressed;
 	}
 	
+	public int getColorValue(){
+		return this.myColor;
+	}
+	
 	public String toString(){
 		return "my Color: "+this.myColor+" my Status: "+this.myCanBePressed;
 	}
