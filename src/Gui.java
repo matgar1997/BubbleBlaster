@@ -49,8 +49,10 @@ public class Gui implements Shifting, ActionListener{
 		//turns all 0 values to no color
 		for(int r = 0; r < 15; r++)
 			for(int c = 0; c < 15; c++)
-				if(this.myBoard.getBubble(r, c).getColorValue() == 0)
+				if(this.myBoard.getBubble(r, c).getColorValue() == 0){
 					this.myButtons[r][c].setBackground(Color.WHITE);
+					this.myButtons[r][c].setEnabled(false);
+				}
 	}
 
 	@Override
@@ -108,6 +110,7 @@ public class Gui implements Shifting, ActionListener{
 			for(int c = 0; c < 15; c++)
 				if(e.getSource() == this.myButtons[r][c]){
 					System.out.println(this.myBoard.getBubble(r, c));
+					this.myBoard.setSurroundingSimilarToTrue(r, c, this.myBoard.getBubble(r, c).getColorValue());
 				}
 	}
 }

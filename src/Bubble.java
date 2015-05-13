@@ -12,8 +12,12 @@ public class Bubble {
 		this.myCanBePressed = false;
 	}
 	
-	public void flipStatus(){
-		this.myCanBePressed = !this.myCanBePressed;
+	public void setStatusTrue(){
+		this.myCanBePressed = true;
+	}
+	
+	public void setStatusFalse(){
+		this.myCanBePressed = false;
 	}
 	
 	public int getColorValue(){

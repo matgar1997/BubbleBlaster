@@ -10,6 +10,17 @@ public class Board implements Shifting{
 			}
 	}
 	
+	public void setSurroundingSimilarToTrue(int row, int col, int correctColor){
+		if(row >= 0 && row < this.myBoard.length && col >= 0 && col < this.myBoard.length)
+				if(this.myBoard[row][col].getColorValue() == correctColor){
+					this.myBoard[row][col].setStatusTrue();
+					setSurroundingSimilarToTrue(row - 1, col, correctColor);
+					setSurroundingSimilarToTrue(row + 1, col, correctColor);
+					setSurroundingSimilarToTrue(row, col - 1, correctColor);
+					setSurroundingSimilarToTrue(row, col + 1, correctColor);
+				}			
+	}
+	
 	@Override
 	public void shiftRowRight(int r) {
 		// TODO Auto-generated method stub
