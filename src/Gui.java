@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-public class Gui implements Shifting{
+public class Gui implements Shifting, ActionListener{
 	
 	private JFrame myGameFrame;
 	private JPanel myGamePanel;
@@ -24,6 +26,7 @@ public class Gui implements Shifting{
 	private String [] myColorOptions = {"WHITE", "BLUE", "GREEN", "RED", "YELLOW"};
 	
 	private Board myBoard;
+	private int currentLevel;
 	
 	public Gui(){
 		this.instantiateAll();
@@ -37,6 +40,9 @@ public class Gui implements Shifting{
 			for(int c = 0; c < 15; c++)
 				this.myGamePanel.add(this.myButtons[r][c]);
 		this.myGameFrame.add(this.myGamePanel);
+		this.currentLevel = 1;
+		this.myBoard = new Board(currentLevel);
+		setColorToBoardButtons();
 	}
 	
 	public void sweepClear(){
@@ -59,6 +65,11 @@ public class Gui implements Shifting{
 		
 	}
 	
+	public void newLevel(){
+		this.currentLevel++;
+		this.myBoard = new Board(this.currentLevel);
+	}
+	
 	public void instantiateAll(){ //This should only be called at start in constructor
 		this.myGameFrame = new JFrame("Bubble Breaker");
 		this.myGamePanel = new JPanel(new GridLayout(15,15));
@@ -70,6 +81,33 @@ public class Gui implements Shifting{
 		
 		for(int r = 0; r < 15; r++)
 			for(int c = 0; c < 15; c++)
+			{
 				this.myButtons[r][c] = new JButton(); 
+				this.myButtons[r][c].addActionListener(this);
+			}
+	}
+	
+	public void setColorToBoardButtons(){
+		for(int r = 0; r < 15; r++)
+			for(int c = 0; c < 15; c++){
+				if(this.myBoard.getBubble(r, c).getColorValue() == 1)
+					this.myButtons[r][c].setBackground(Color.BLUE);
+				else if(this.myBoard.getBubble(r, c).getColorValue() == 2)
+					this.myButtons[r][c].setBackground(Color.GREEN);
+				else if(this.myBoard.getBubble(r, c).getColorValue() == 3)
+					this.myButtons[r][c].setBackground(Color.YELLOW);
+				else if(this.myBoard.getBubble(r, c).getColorValue() == 4)
+					this.myButtons[r][c].setBackground(Color.RED);
+			}
+				
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for(int r = 0; r < 15; r++)
+			for(int c = 0; c < 15; c++)
+				if(e.getSource() == this.myButtons[r][c]){
+					System.out.println(this.myBoard.getBubble(r, c));
+				}
 	}
 }
