@@ -14,6 +14,7 @@ public class Board implements Shifting{
 		if(row >= 0 && row < this.myBoard.length && col >= 0 && col < this.myBoard.length)
 				if(this.myBoard[row][col].getColorValue() == correctColor){
 					this.myBoard[row][col].setStatusTrue();
+					//System.out.println(row);
 					setSurroundingSimilarToTrue(row - 1, col, correctColor);
 					setSurroundingSimilarToTrue(row + 1, col, correctColor);
 					setSurroundingSimilarToTrue(row, col - 1, correctColor);

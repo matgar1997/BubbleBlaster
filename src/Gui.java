@@ -23,25 +23,29 @@ public class Gui implements Shifting, ActionListener{
 	
 	private JButton [][] myButtons = new JButton[15][15]; // 15,15
 	
-	private String [] myColorOptions = {"WHITE", "BLUE", "GREEN", "RED", "YELLOW"};
-	
 	private Board myBoard;
-	private int currentLevel;
+	private GameStats myGameStats;
 	
 	public Gui(){
 		this.instantiateAll();
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		this.myGameFrame.setSize(d.width / 2, d.height / 2);
+		this.myDetailFrame.setSize(d.width / 4, d.height / 4);
+		this.myDetailFrame.setVisible(true);
 		this.myGameFrame.setVisible(true);
+		this.myDetailFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.myGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.myGameFrame.setLocationRelativeTo(null);
+		this.myDetailFrame.setLocationRelativeTo(null);
 		
 		for(int r = 0; r < 15; r++)
 			for(int c = 0; c < 15; c++)
 				this.myGamePanel.add(this.myButtons[r][c]);
 		this.myGameFrame.add(this.myGamePanel);
-		this.currentLevel = 1;
-		this.myBoard = new Board(currentLevel);
+		this.myGameStats = new GameStats();
+		this.myBoard = new Board(this.myGameStats.getLevel());
+		
+		
 		setColorToBoardButtons();
 	}
 	
@@ -68,8 +72,8 @@ public class Gui implements Shifting, ActionListener{
 	}
 	
 	public void newLevel(){
-		this.currentLevel++;
-		this.myBoard = new Board(this.currentLevel);
+		this.myGameStats.nextLevel();
+		this.myBoard = new Board(this.myGameStats.getLevel());
 	}
 	
 	public void instantiateAll(){ //This should only be called at start in constructor

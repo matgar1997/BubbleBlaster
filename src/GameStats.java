@@ -16,4 +16,12 @@ public class GameStats {
 	public void addToScore(int value){
 		this.myScore += value;
 	}
+	
+	public int getLevel(){
+		return this.myLevel;
+	}
+	
+	public int getScore(){
+		return this.myScore;
+	}
 }
