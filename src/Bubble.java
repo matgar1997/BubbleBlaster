@@ -24,8 +24,16 @@ public class Bubble {
 		return this.myColor;
 	}
 	
+	public void setColorValue(int i){
+		this.myColor = i;
+	}
+	
 	public int getRow(){
 		return this.myRow;
+	}
+	
+	public boolean getStatus(){
+		return this.myCanBePressed;
 	}
 	
 	public int getCol(){

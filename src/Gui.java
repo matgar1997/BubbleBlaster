@@ -27,6 +27,7 @@ public class Gui implements Shifting, ActionListener{
 	private GameStats myGameStats;
 	
 	public Gui(){
+		//TODO work on frame placement later
 		this.instantiateAll();
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		this.myGameFrame.setSize(d.width / 2, d.height / 2);
@@ -36,7 +37,7 @@ public class Gui implements Shifting, ActionListener{
 		this.myDetailFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.myGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.myGameFrame.setLocationRelativeTo(null);
-		this.myDetailFrame.setLocationRelativeTo(null);
+		this.myDetailFrame.setLocation((d.width / 2) + 200, (d.height / 2) + 50);
 		
 		for(int r = 0; r < 15; r++)
 			for(int c = 0; c < 15; c++)
@@ -47,16 +48,6 @@ public class Gui implements Shifting, ActionListener{
 		
 		
 		setColorToBoardButtons();
-	}
-	
-	public void sweepClear(){
-		//turns all 0 values to no color
-		for(int r = 0; r < 15; r++)
-			for(int c = 0; c < 15; c++)
-				if(this.myBoard.getBubble(r, c).getColorValue() == 0){
-					this.myButtons[r][c].setBackground(Color.WHITE);
-					this.myButtons[r][c].setEnabled(false);
-				}
 	}
 
 	@Override
@@ -96,6 +87,10 @@ public class Gui implements Shifting, ActionListener{
 	public void setColorToBoardButtons(){
 		for(int r = 0; r < 15; r++)
 			for(int c = 0; c < 15; c++){
+				if(this.myBoard.getBubble(r, c).getColorValue() == 0){
+					this.myButtons[r][c].setBackground(Color.WHITE);
+					this.myButtons[r][c].setEnabled(false);
+				}
 				if(this.myBoard.getBubble(r, c).getColorValue() == 1)
 					this.myButtons[r][c].setBackground(Color.BLUE);
 				else if(this.myBoard.getBubble(r, c).getColorValue() == 2)
@@ -113,8 +108,23 @@ public class Gui implements Shifting, ActionListener{
 		for(int r = 0; r < 15; r++)
 			for(int c = 0; c < 15; c++)
 				if(e.getSource() == this.myButtons[r][c]){
-					System.out.println(this.myBoard.getBubble(r, c));
+					//System.out.println(this.myBoard.getBubble(r, c));
 					this.myBoard.setSurroundingSimilarToTrue(r, c, this.myBoard.getBubble(r, c).getColorValue());
+					setColorToBoardButtons();
+					if(this.myBoard.checkIsLevelOver() == true){
+						this.newLevel();
+						resetBoard();
+					}
 				}
+	}
+	
+	public void resetBoard(){
+		for(int r = 0; r < 15; r++)
+			for(int c = 0; c < 15; c++){
+				this.myButtons[r][c].setEnabled(true);
+				this.myBoard.getBubble(r, c).setStatusFalse();		
+			}
+		setColorToBoardButtons();
+		
 	}
 }
