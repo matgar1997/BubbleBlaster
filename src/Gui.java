@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-public class Gui implements Shifting, ActionListener{
+public class Gui implements ActionListener{
 	
 	private JFrame myGameFrame;
 	private JPanel myGamePanel;
@@ -47,19 +47,7 @@ public class Gui implements Shifting, ActionListener{
 		this.myBoard = new Board(this.myGameStats.getLevel());
 		
 		
-		setColorToBoardButtons();
-	}
-
-	@Override
-	public void shiftRowRight(int r) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void shiftColDown(int c) {
-		// TODO Auto-generated method stub
-		
+		paintBoard();
 	}
 	
 	public void newLevel(){
@@ -84,7 +72,7 @@ public class Gui implements Shifting, ActionListener{
 			}
 	}
 	
-	public void setColorToBoardButtons(){
+	public void paintBoard(){
 		for(int r = 0; r < 15; r++)
 			for(int c = 0; c < 15; c++){
 				if(this.myBoard.getBubble(r, c).getColorValue() == 0){
@@ -110,7 +98,9 @@ public class Gui implements Shifting, ActionListener{
 				if(e.getSource() == this.myButtons[r][c]){
 					//System.out.println(this.myBoard.getBubble(r, c));
 					this.myBoard.setSurroundingSimilarToTrue(r, c, this.myBoard.getBubble(r, c).getColorValue());
-					setColorToBoardButtons();
+					//paintBoard();
+					this.myBoard.shiftEveryThing();
+					paintBoard();
 					if(this.myBoard.checkIsLevelOver() == true){
 						this.newLevel();
 						resetBoard();
@@ -124,7 +114,7 @@ public class Gui implements Shifting, ActionListener{
 				this.myButtons[r][c].setEnabled(true);
 				this.myBoard.getBubble(r, c).setStatusFalse();		
 			}
-		setColorToBoardButtons();
+		paintBoard();
 		
 	}
 }

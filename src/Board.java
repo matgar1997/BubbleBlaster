@@ -1,4 +1,4 @@
-public class Board implements Shifting{
+public class Board{
 	
 	private Bubble [][] myBoard = new Bubble[15][15];
 	
@@ -8,6 +8,7 @@ public class Board implements Shifting{
 				int i = (int) (Math.random() * (level - 1) + 1);
 				this.myBoard[r][c] = new Bubble(i,r,c);
 			}
+		System.out.print(this.myBoard);
 	}
 	
 	public void setSurroundingSimilarToTrue(int row, int col, int correctColor){
@@ -35,23 +36,68 @@ public class Board implements Shifting{
 		return true;
 	}
 	
-	@Override
-	public void shiftRowRight(int r) {
-		// TODO Auto-generated method stub
+	private void shiftRowRight(int r) {
+		
+		int [] temp = new int[15];
+		int spotf = 0, spotSecond = 0;
+		for(int i = 14; i <= 0 ; i--){
+			if(this.myBoard[r][i].getColorValue() != 0)
+				temp[spotf] = this.myBoard[r][i].getColorValue();
+		}
+		
+		if(spotf < 14){
+			temp[spotf] = 0;
+			spotf++;
+		}
+		
+		for(int i = 14; i <= 0; i--){
+			this.myBoard[r][i].setColorValue(temp[spotSecond]);
+			spotSecond++;
+		}
 		
 	}
 
-	@Override
-	public void shiftColDown(int c) {	
-		int prior;
-		for(int i = 0; i < 15; i++){
-			prior = this.myBoard[i][c].getColorValue();
-			if(this.myBoard[i + 1][c].getColorValue() == 0)
-				this.myBoard[i + 1][c].setColorValue(prior);
+	private void shiftColDown(int c) {	
+		
+		int [] temp = new int[15];
+		int spotf = 0, spotSecond = 0;
+		for(int i = 14; i <= 0 ; i--){
+			if(this.myBoard[i][c].getColorValue() != 0)
+				temp[spotf] = this.myBoard[i][c].getColorValue();
 		}
-	}
+		
+		if(spotf < 14){
+			temp[spotf] = 0;
+			spotf++;
+		}
+		
+		for(int i = 14; i <= 0; i--){
+			this.myBoard[i][c].setColorValue(temp[spotSecond]);
+			spotSecond++;
+		}
+	} 
 	
 	public Bubble getBubble(int r, int c){
 		return this.myBoard[r][c];
+	}
+
+	public void shiftEveryThing() {
+		for(int c = 0; c < 15; c++)
+			this.shiftColDown(c);
+		for(int r = 0; r < 15; r++)
+			this.shiftRowRight(r);
+		//System.out.println(" SHIFTED ");
+		
+	}
+	
+	public String toString(){
+		String s = "";
+		for(int r = 0; r < 15; r++){
+			for(int c = 0; c < 15; c++){
+				s += this.myBoard[r][c].getColorValue();
+			}
+			s += "\n"; 
+		}
+		return s;
 	}
 }
