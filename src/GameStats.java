@@ -1,27 +1,26 @@
-
 public class GameStats {
 
 	private int myLevel;
 	private int myScore;
-	
-	public GameStats(){
+
+	public GameStats() {
 		this.myLevel = 1;
 		this.myScore = 0;
 	}
-	
-	public void nextLevel(){
+
+	public void nextLevel() {
 		this.myLevel++;
 	}
-	
-	public void addToScore(int value){
+
+	public void addToScore(int value) {
 		this.myScore += value;
 	}
-	
-	public int getLevel(){
+
+	public int getLevel() {
 		return this.myLevel;
 	}
-	
-	public int getScore(){
+
+	public int getScore() {
 		return this.myScore;
 	}
 }
