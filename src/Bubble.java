@@ -44,7 +44,6 @@ public class Bubble {
 	}
 
 	public String toString() {
-		return "(" + this.myRow + "," + this.myCol + ") / Color: "
-				+ this.myColor + " / Status: " + this.myStatus;
+		return "("+this.myRow+", "+this.myCol+")("+this.myColor+")";
 	}
 }

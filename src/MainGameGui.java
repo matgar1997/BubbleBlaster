@@ -103,6 +103,7 @@ public class MainGameGui implements ActionListener {
 			this.myBoard.shiftBoardDown();
 			this.myBoard.shiftBoardRight();
 			this.paintBoardAndData();
+			System.out.println(this.myBoard);
 		}
 	}
 	public void setScoreText(){

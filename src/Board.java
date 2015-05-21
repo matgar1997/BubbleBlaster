@@ -112,4 +112,17 @@ public class Board {
 	public void setBubble(int row, int col, Bubble bubble) {
 		this.myBoard[row][col] = bubble;
 	}
+	
+	public String toString(){
+		String s = "";
+		
+		for (int r = 0; r < 15; r++){
+			s += "[";
+			for (int c = 0; c < 15; c++){
+				s += this.myBoard[r][c] + ", ";
+			}
+			s += "]\n";
+		}  		
+		return s;
+	}
 }
