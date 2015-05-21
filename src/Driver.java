@@ -1,7 +1,10 @@
 public class Driver {
 
 	public static void main(String[] args) {
-		Gui myGui = new Gui();
+
+		Board b = new Board(1, 0);
+		new MainGameGui(b);
+
 	}
 
 }
