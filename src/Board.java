@@ -31,10 +31,56 @@ public class Board {
 
 	public void shiftBoardDown() {
 
+		int currentC = 0;
+		
+		while(currentC < 15){
+			Bubble [] temp = new Bubble [15];
+			int hits = 14;
+			
+			for(int i = 14; i <= 0; i--){
+				if(this.myBoard[i][currentC].getColor() != 0){
+					temp[hits] = new Bubble(this.myBoard[i][currentC].getColor(), hits, currentC);
+					hits--;
+				}
+			}
+			
+			while(hits >= 0){
+				temp[hits] = new Bubble(0, hits, currentC);
+				hits--;
+			}
+			for(int r = 0; r < 15; r++){
+				this.myBoard[r][currentC] = temp[r];
+			}
+			currentC++;
+		}
+		
 	}
 
 	public void shiftBoardRight() {
-
+		
+		int currentR = 0;
+		
+		while(currentR < 15){
+			Bubble [] temp = new Bubble [15];
+			int hits = 14;
+			
+			for(int i = 14; i <= 0; i--){
+				if(this.myBoard[currentR][i].getColor() != 0){
+					temp[hits] = new Bubble(this.myBoard[currentR][i].getColor(), currentR, hits);
+					hits--;
+				}
+			}
+			
+			while(hits >= 0){
+				temp[hits] = new Bubble(0, currentR, hits);
+				hits--;
+			}
+			for(int c = 0; c < 15; c++){
+				this.myBoard[currentR][c] = temp[c];
+			}
+			currentR++;
+		}
+		
 	}
 
 	public boolean isLevelOver() {

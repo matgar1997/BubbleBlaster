@@ -92,13 +92,18 @@ public class MainGameGui implements ActionListener {
 				if (e.getSource() == this.myButtons[r][c])
 					this.myBoard.recursionCall(r, c,
 							this.myBoard.getBubble(r, c).getColor());
-		this.myBoard.shiftBoardDown();
-		this.myBoard.shiftBoardRight();
+	
 		if (this.myBoard.isLevelOver() == true) {
 			this.myGameFrame.dispose();
 			this.myBoard.nextLevel();
 		}
-		this.paintBoardAndData();
+		
+		else if(this.myBoard.isLevelOver() == false){
+			//TODO FIX THIS
+			this.myBoard.shiftBoardDown();
+			this.myBoard.shiftBoardRight();
+			this.paintBoardAndData();
+		}
 	}
 	public void setScoreText(){
 		this.myLevelLabel.setText("Current Level: " + this.myBoard.getLevel());
