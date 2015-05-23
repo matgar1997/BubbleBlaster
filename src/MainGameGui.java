@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MainGameGui implements ActionListener {
@@ -19,17 +20,20 @@ public class MainGameGui implements ActionListener {
 	private JPanel myGamePanel;
 	private JLabel myScoreLabel = new JLabel();
 	private JLabel myLevelLabel = new JLabel();
+	private JLabel myScoreNeeded = new JLabel();
 
 	private JButton[][] myButtons = new JButton[15][15]; // 15,15
 
 	private Board myBoard;
+	
+	private int clicks = 0;
 
 	public MainGameGui(Board board) {
 		this.myBoard = board;
 		
 		this.myGameFrame = new JFrame("Bubble Breaker");
 		this.myGamePanel = new JPanel(new GridLayout(15, 15));
-		this.myDataPanel = new JPanel(new GridLayout(1,2));
+		this.myDataPanel = new JPanel(new GridLayout(1,3));
 		this.myLayoutPanel = new JPanel(new BorderLayout());
 		for (int r = 0; r < 15; r++)
 			for (int c = 0; c < 15; c++) {
@@ -38,6 +42,7 @@ public class MainGameGui implements ActionListener {
 			}
 		this.myDataPanel.add(this.myLevelLabel);
 		this.myDataPanel.add(this.myScoreLabel);
+		this.myDataPanel.add(this.myScoreNeeded);
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		this.myGameFrame.setSize(d.width / 2, d.height / 2);
@@ -83,27 +88,43 @@ public class MainGameGui implements ActionListener {
 			}
 		this.setLevelText();
 		this.setScoreText();
+		this.setScoreNeededText();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		clicks++;
 		for (int r = 0; r < 15; r++)
 			for (int c = 0; c < 15; c++)
 				if (e.getSource() == this.myButtons[r][c])
 					this.myBoard.recursionCall(r, c,
 							this.myBoard.getBubble(r, c).getColor());
 	
-		if (this.myBoard.isLevelOver() == true) {
+		if (this.myBoard.isLevelOver() == true || this.myBoard.getScore() >= this.myBoard.getScoreNeeded()) {
 			this.myGameFrame.dispose();
 			this.myBoard.nextLevel();
 		}
 		
-		else if(this.myBoard.isLevelOver() == false){
+		else if(this.myBoard.isLevelOver() == false || clicks < 5){
 			//TODO FIX THIS
 			this.myBoard.shiftBoardDown();
 			this.myBoard.shiftBoardRight();
 			this.paintBoardAndData();
-			System.out.println(this.myBoard);
+			//System.out.println(this.myBoard);
+		}
+		
+		if(clicks >= 5){
+			int reply = JOptionPane.showConfirmDialog(null,
+					"Would you like to play again", "You Ended on Level "+this.myBoard.getLevel(), JOptionPane.YES_NO_OPTION);
+			if(reply == JOptionPane.NO_OPTION){
+				this.myGameFrame.dispose();
+			}
+			else if(reply == JOptionPane.YES_OPTION){
+				this.myGameFrame.dispose();
+				this.myBoard.restart();
+			}
+				
 		}
 	}
 	public void setScoreText(){
@@ -112,5 +133,9 @@ public class MainGameGui implements ActionListener {
 	
 	public void setLevelText(){
 		this.myScoreLabel.setText("Current Score: " + this.myBoard.getScore());
+	}
+	
+	public void setScoreNeededText(){
+		this.myScoreNeeded.setText("Score Needed for Level "+(this.myBoard.getLevel() + 1) + ": "+this.myBoard.getScoreNeeded());
 	}
 }

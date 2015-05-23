@@ -1,12 +1,16 @@
 public class Board {
 
 	private Bubble[][] myBoard = new Bubble[15][15];
+	final private int [] SCORE_NEEDED = {225,325,450,575,700};
 	private int myLevel;
 	private int myScore = 0;
+	private int myScoreNeeded;
 
-	public Board(int level, int score) {
+	public Board(int level, int score, int scoreNeeded) {
 		this.myLevel = level;
 		this.myScore = score;
+		this.myScoreNeeded = scoreNeeded;
+		
 		for (int r = 0; r < 15; r++)
 			for (int c = 0; c < 15; c++) {
 				int i = (int) (Math.random() * (this.myLevel) + 1);
@@ -37,7 +41,9 @@ public class Board {
 			Bubble [] temp = new Bubble [15];
 			int hits = 14;
 			
-			for(int i = 14; i <= 0; i--){
+			//change <= to >=
+			for(int i = 14; i >= 0; i--){
+				
 				if(this.myBoard[i][currentC].getColor() != 0){
 					temp[hits] = new Bubble(this.myBoard[i][currentC].getColor(), hits, currentC);
 					hits--;
@@ -64,7 +70,7 @@ public class Board {
 			Bubble [] temp = new Bubble [15];
 			int hits = 14;
 			
-			for(int i = 14; i <= 0; i--){
+			for(int i = 14; i >= 0; i--){
 				if(this.myBoard[currentR][i].getColor() != 0){
 					temp[hits] = new Bubble(this.myBoard[currentR][i].getColor(), currentR, hits);
 					hits--;
@@ -98,10 +104,14 @@ public class Board {
 	public int getScore() {
 		return this.myScore;
 	}
+	
+	public int getScoreNeeded(){
+		return this.SCORE_NEEDED[this.getLevel() - 1];
+	}
 
 	public void nextLevel() {
 		this.myLevel++;
-		Board b = new Board(this.getLevel(), this.getScore());
+		Board b = new Board(this.getLevel(), this.getScore(), this.getScoreNeeded());
 		new MainGameGui(b);
 	}
 
@@ -111,6 +121,11 @@ public class Board {
 
 	public void setBubble(int row, int col, Bubble bubble) {
 		this.myBoard[row][col] = bubble;
+	}
+	
+	public void restart(){
+		Board b = new Board(1, 0, 225);
+		new MainGameGui(b);
 	}
 	
 	public String toString(){
