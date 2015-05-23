@@ -86,6 +86,19 @@ public class MainGameGui implements ActionListener {
 
 				else if (this.myBoard.getBubble(r, c).getColor() == 5)
 					this.myButtons[r][c].setBackground(Color.ORANGE);
+				
+				else if(this.myBoard.getBubble(r, c).getColor() == 6)
+					this.myButtons[r][c].setBackground(Color.CYAN);
+				
+				else if(this.myBoard.getBubble(r, c).getColor() == 7)
+					this.myButtons[r][c].setBackground(Color.PINK);
+				
+				else if(this.myBoard.getBubble(r, c).getColor() == 8)
+					this.myButtons[r][c].setBackground(Color.MAGENTA);
+				
+				else{
+					this.myButtons[r][c].setBackground(Color.GRAY);
+				}
 				/**
 				if (this.myBoard.getBubble(r, c).getStatus() == false)
 					this.myButtons[r][c].setEnabled(true);
