@@ -1,7 +1,7 @@
 public class Board {
 
 	private Bubble[][] myBoard = new Bubble[15][15];
-	final private int [] SCORE_NEEDED = {225,325,450,575,700};
+	final private int [] SCORE_NEEDED = {225,425,500,575,600};
 	private int myLevel;
 	private int myScore = 0;
 	private int myScoreNeeded;

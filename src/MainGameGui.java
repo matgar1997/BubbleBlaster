@@ -20,20 +20,23 @@ public class MainGameGui implements ActionListener {
 	private JPanel myGamePanel;
 	private JLabel myScoreLabel = new JLabel();
 	private JLabel myLevelLabel = new JLabel();
-	private JLabel myScoreNeeded = new JLabel();
+	private JLabel myScoreNeededLabel = new JLabel();
+	private JLabel myClickCounterLabel = new JLabel();
 
 	private JButton[][] myButtons = new JButton[15][15]; // 15,15
 
 	private Board myBoard;
 	
 	private int clicks = 0;
+	
+	private boolean unlocked = false;
 
 	public MainGameGui(Board board) {
 		this.myBoard = board;
 		
 		this.myGameFrame = new JFrame("Bubble Breaker");
 		this.myGamePanel = new JPanel(new GridLayout(15, 15));
-		this.myDataPanel = new JPanel(new GridLayout(1,3));
+		this.myDataPanel = new JPanel(new GridLayout(1,4));
 		this.myLayoutPanel = new JPanel(new BorderLayout());
 		for (int r = 0; r < 15; r++)
 			for (int c = 0; c < 15; c++) {
@@ -42,10 +45,11 @@ public class MainGameGui implements ActionListener {
 			}
 		this.myDataPanel.add(this.myLevelLabel);
 		this.myDataPanel.add(this.myScoreLabel);
-		this.myDataPanel.add(this.myScoreNeeded);
+		this.myDataPanel.add(this.myScoreNeededLabel);
+		this.myDataPanel.add(this.myClickCounterLabel);
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		this.myGameFrame.setSize(d.width / 2, d.height / 2);
+		this.myGameFrame.setSize((d.width / 2) + d.width / 5, (d.height / 2) + d.height / 5);
 		this.myGameFrame.setVisible(true);
 		this.myGameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.myGameFrame.setLocationRelativeTo(null);
@@ -63,8 +67,10 @@ public class MainGameGui implements ActionListener {
 	public void paintBoardAndData() {
 		for (int r = 0; r < 15; r++)
 			for (int c = 0; c < 15; c++) {
-				if (this.myBoard.getBubble(r, c).getColor() == 0)
+				if (this.myBoard.getBubble(r, c).getColor() == 0){
 					this.myButtons[r][c].setBackground(Color.WHITE);
+					this.myButtons[r][c].setEnabled(false);
+				}
 
 				else if (this.myBoard.getBubble(r, c).getColor() == 1)
 					this.myButtons[r][c].setBackground(Color.BLUE);
@@ -80,15 +86,17 @@ public class MainGameGui implements ActionListener {
 
 				else if (this.myBoard.getBubble(r, c).getColor() == 5)
 					this.myButtons[r][c].setBackground(Color.ORANGE);
-
+				/**
 				if (this.myBoard.getBubble(r, c).getStatus() == false)
 					this.myButtons[r][c].setEnabled(true);
 				if (this.myBoard.getBubble(r, c).getStatus() == true)
 					this.myButtons[r][c].setEnabled(false);
+					*/
 			}
 		this.setLevelText();
 		this.setScoreText();
 		this.setScoreNeededText();
+		this.setClickCounterText();
 	}
 
 	@Override
@@ -100,13 +108,16 @@ public class MainGameGui implements ActionListener {
 				if (e.getSource() == this.myButtons[r][c])
 					this.myBoard.recursionCall(r, c,
 							this.myBoard.getBubble(r, c).getColor());
-	
+		
+		//if next level was unlocked
 		if (this.myBoard.isLevelOver() == true || this.myBoard.getScore() >= this.myBoard.getScoreNeeded()) {
 			this.myGameFrame.dispose();
 			this.myBoard.nextLevel();
+			unlocked = true;
 		}
 		
-		else if(this.myBoard.isLevelOver() == false || clicks < 5){
+		//if level is not over
+		else if(this.myBoard.isLevelOver() == false || clicks <= 5){
 			//TODO FIX THIS
 			this.myBoard.shiftBoardDown();
 			this.myBoard.shiftBoardRight();
@@ -114,7 +125,7 @@ public class MainGameGui implements ActionListener {
 			//System.out.println(this.myBoard);
 		}
 		
-		if(clicks >= 5){
+		if(clicks == 6 && unlocked == false){
 			int reply = JOptionPane.showConfirmDialog(null,
 					"Would you like to play again", "You Ended on Level "+this.myBoard.getLevel(), JOptionPane.YES_NO_OPTION);
 			if(reply == JOptionPane.NO_OPTION){
@@ -136,6 +147,10 @@ public class MainGameGui implements ActionListener {
 	}
 	
 	public void setScoreNeededText(){
-		this.myScoreNeeded.setText("Score Needed for Level "+(this.myBoard.getLevel() + 1) + ": "+this.myBoard.getScoreNeeded());
+		this.myScoreNeededLabel.setText("Score Needed for Level "+(this.myBoard.getLevel() + 1) + ": "+this.myBoard.getScoreNeeded());
+	}
+	
+	public void setClickCounterText(){
+		this.myClickCounterLabel.setText("Moves Left: ("+this.clicks+"/6)");
 	}
 }
