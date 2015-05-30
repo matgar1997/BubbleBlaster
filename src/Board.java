@@ -4,12 +4,10 @@ public class Board {
 	final private int [] SCORE_NEEDED = {225,425,480,520,555,590,630,700,1000};
 	private int myLevel;
 	private int myScore = 0;
-	private int myScoreNeeded;
 
-	public Board(int level, int score, int scoreNeeded) {
+	public Board(int level, int score) {
 		this.myLevel = level;
 		this.myScore = score;
-		this.myScoreNeeded = scoreNeeded;
 		
 		for (int r = 0; r < 15; r++)
 			for (int c = 0; c < 15; c++) {
@@ -111,7 +109,7 @@ public class Board {
 
 	public void nextLevel() {
 		this.myLevel++;
-		Board b = new Board(this.getLevel(), this.getScore(), this.getScoreNeeded());
+		Board b = new Board(this.getLevel(), this.getScore());
 		new MainGameGui(b);
 	}
 
@@ -124,7 +122,7 @@ public class Board {
 	}
 	
 	public void restart(){
-		Board b = new Board(1, 0, 225);
+		Board b = new Board(1, 0);
 		new MainGameGui(b);
 	}
 	
